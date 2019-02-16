@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chat</title>
+    <!-- Styles -->
+    <link href="css/app.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/chat.css">
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript">
+        function showMessage(data){
+            $("div.content").append("用户 说:&nbsp;"+data[3]+"<br>");
+        }
+        $(function () {
+            $("#send").click(function () {
+                var content = $("textarea").val();
+
+                if(content == ""){
+                    alert('发送内容不能为空!');
+                    return;
+                }
+                $.post("toClient.php",{"content": content},function (data) {
+                    $("div.content").append("你 说:&nbsp;"+content+"<br>");
+                    $("textarea.wait-send").val("");
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12">
+                            <div class="thumbnail">
+                                <div class="caption">
+                                    <h4>客服</h4>
+                                    <div class="content">
+
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea class="form-control wait-send" rows="3"></textarea>
+                                    </div>
+                                    <div class="btn btn-primary pull-right" role="button" id="send">发送
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <iframe src="http://127.0.0.1/chat/fromClient.php" width="710" height="590" frameborder="0" scrolling="no"></iframe>
+</body>
+</html>
